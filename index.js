@@ -2,16 +2,40 @@ const http = require('http')
 
 //cоздание серввера
 const server = http.createServer((req, res) => {
-    console.log(req.url)
+    if(req.method === 'GET') {
+        //укажем content-type(подсказка браузеру что мы передаем)
+        res.writeHead(200, {
+            'Content-type': 'text/html'
+        })
+        res.end(`
+            <h1>Form</h1>
+            <form method="post" action"/">
+                <input name="title" type="text" />
+                <button type="submit">Send</button>
+            </form>
+        `)
+    } else if (req.method === 'POST') {
+        const body = []
 
-    res.write('<h1>Hello 222/333</h1>')
-    res.write('<h2>Hello 222/333</h2>')
-    res.write('<h3>Hello 222/333</h3>')
-    res.end(`
-        <div style="background: red; width: 200px;">
-            <h1>Test 1</h1>
-        </div>
-    `)
+        //укажем кодировку и что мы передаем
+        res.writeHead(200, {
+            'Content-type': 'text/html; charset=utf-8'
+        })
+
+        req.on('data', data => {
+            body.push(Buffer.from(data))
+        })
+
+        req.on('end', () => {
+            //перекрутим в строку и через метод сплит 
+            const message = body.toString().split('=')[1]
+
+            res.end(`
+            <h1>Ваше сообщение: ${message}</h1>
+            `)
+        })
+
+    }
 })
 
 //запуск сервера на 3000ом порте
