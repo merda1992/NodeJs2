@@ -1,0 +1,19 @@
+{
+  "name": "nodejs",
+  "version": "1.0.0",
+  "description": "nodejs tutorial",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "keywords": [
+    "nodejs",
+    "js"
+  ],
+  "author": "Yura Ivanov",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.18"
+  }
+}
