@@ -22,12 +22,14 @@ const server = http.createServer((req, res) => {
             'Content-type': 'text/html; charset=utf-8'
         })
 
+        //Параметры вылетевшие из формы являются буферами (все параметры делятся на чанки => данные нам поступают порциями которые надо оброабатывать)
+        //req наследник EventEmiter
         req.on('data', data => {
             body.push(Buffer.from(data))
         })
 
         req.on('end', () => {
-            //перекрутим в строку и через метод сплит 
+            //перекрутим массив в строку и через метод сплит выведем
             const message = body.toString().split('=')[1]
 
             res.end(`
